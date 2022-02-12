@@ -1,5 +1,6 @@
 package repository;
 
+import exception.NotFoundException;
 import model.Post;
 
 import java.util.Collection;
@@ -32,8 +33,13 @@ public class PostRepository {
             savePost.setId(id);
             allPosts.put(id, savePost);
         } else if (savePost.getId() != 0) {
-            Long currentId = savePost.getId();
-            allPosts.put(currentId, savePost);
+            try {
+                Long currentId = savePost.getId();
+                allPosts.put(currentId, savePost);
+            } catch (NotFoundException ex) {
+                ex.printStackTrace();
+                System.out.println(("ID " + savePost.getId() + " not found"));
+            }
         }
         return savePost;
     }
